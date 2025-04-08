@@ -1,15 +1,36 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
 import { ArrowRight, ChevronDown, Calendar, MapPin } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const Hero = () => {
   const heroRef = useRef<HTMLElement>(null);
   const [isClient, setIsClient] = useState(false);
+  const router = useRouter();
 
   // Set isClient to true after component mounts to avoid hydration mismatch
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  // Function to navigate to the contact section
+  const navigateToContact = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    // Check if on home page
+    if (window.location.pathname === "/") {
+      // Smooth scroll to contact section
+      const contactSection = document.getElementById("contact");
+      if (contactSection) {
+        window.scrollTo({
+          top: contactSection.offsetTop - 80, // Offset for navbar height
+          behavior: "smooth",
+        });
+      }
+    } else {
+      // Navigate to home page with contact section
+      router.push("/#contact");
+    }
+  };
 
   // Scroll reveal animation
   useEffect(() => {
@@ -209,11 +230,15 @@ const Hero = () => {
             </div>
 
             <div className='flex flex-col sm:flex-row gap-4 mt-6 justify-center animate-on-scroll opacity-0 transform translate-y-4 animation-delay-1200'>
-              <button className='bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-medium px-8 py-3 rounded-sm shadow-lg transition-all duration-300 uppercase tracking-wider text-sm flex items-center justify-center group'>
+              <button
+                onClick={navigateToContact}
+                className='bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-medium px-8 py-3 rounded-sm shadow-lg transition-all duration-300 uppercase tracking-wider text-sm flex items-center justify-center group'>
                 Register Now
                 <ArrowRight className='w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1' />
               </button>
-              <button className='bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 text-white font-medium px-8 py-3 rounded-sm transition-all duration-300 uppercase tracking-wider text-sm'>
+              <button
+                onClick={navigateToContact}
+                className='bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 text-white font-medium px-8 py-3 rounded-sm transition-all duration-300 uppercase tracking-wider text-sm'>
                 Become an Exhibitor
               </button>
             </div>

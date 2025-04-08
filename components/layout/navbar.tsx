@@ -34,7 +34,19 @@ const Navbar = () => {
   ) => {
     e.preventDefault();
     setIsMenuOpen(false);
+    navigateToPath(path);
+  };
 
+  const handleButtonClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    path: string
+  ) => {
+    e.preventDefault();
+    setIsMenuOpen(false);
+    navigateToPath(path);
+  };
+
+  const navigateToPath = (path: string) => {
     // Handle regular page navigation
     if (!path.includes("#")) {
       router.push(path);
@@ -98,7 +110,9 @@ const Navbar = () => {
                 {link.name}
               </a>
             ))}
-            <button className='bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-medium px-6 py-2 rounded-sm transition-all duration-300 uppercase tracking-wider text-sm shadow-md'>
+            <button
+              onClick={(e) => handleButtonClick(e, "/#contact")}
+              className='bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-medium px-6 py-2 rounded-sm transition-all duration-300 uppercase tracking-wider text-sm shadow-md'>
               REGISTER
             </button>
           </div>
@@ -163,7 +177,9 @@ const Navbar = () => {
             </a>
           ))}
           <div className='pt-4'>
-            <button className='w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-medium px-4 py-2 rounded-sm transition-all duration-300 uppercase tracking-wider text-sm shadow-md'>
+            <button
+              onClick={(e) => handleButtonClick(e, "/#contact")}
+              className='w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-medium px-4 py-2 rounded-sm transition-all duration-300 uppercase tracking-wider text-sm shadow-md'>
               REGISTER
             </button>
           </div>
