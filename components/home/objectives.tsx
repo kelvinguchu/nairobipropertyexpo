@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { Target, Users, Lightbulb, Leaf } from "lucide-react";
-import Image from "next/image";
+;
 
 const Objectives = () => {
   const sectionRef = useRef<HTMLElement>(null);

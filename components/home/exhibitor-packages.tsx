@@ -10,6 +10,17 @@ import {
   Building,
 } from "lucide-react";
 
+interface PackageCardProps {
+  title: string;
+  size: string;
+  price: number;
+  features: string[];
+  color: string;
+  icon: React.ElementType;
+  isVisible: boolean;
+  index: number;
+}
+
 const PackageCard = ({
   title,
   size,
@@ -19,7 +30,7 @@ const PackageCard = ({
   icon: Icon,
   isVisible,
   index,
-}) => {
+}: PackageCardProps) => {
   return (
     <div
       className={`relative backdrop-blur-lg bg-white/60 rounded-xl shadow-[0_15px_35px_rgba(124,58,237,0.1)] border border-white/40 overflow-hidden transition-all duration-700 flex flex-col h-full group hover:shadow-[0_20px_50px_rgba(124,58,237,0.15)] hover:translate-y-[-5px] ${
@@ -58,7 +69,7 @@ const PackageCard = ({
         {/* Benefits */}
         <div className='mb-auto'>
           <ul className='space-y-2'>
-            {features.map((feature, i) => (
+            {features.map((feature: string, i: number) => (
               <li key={i} className='flex'>
                 <CheckCircle2 className='w-5 h-5 text-purple-500 flex-shrink-0 mr-2' />
                 <span className='text-gray-600 text-sm'>{feature}</span>

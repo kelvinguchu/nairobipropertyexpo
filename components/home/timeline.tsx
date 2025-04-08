@@ -10,6 +10,15 @@ import {
   CalendarDays,
 } from "lucide-react";
 
+interface TimelineItemProps {
+  month: string;
+  title: string;
+  description: string;
+  icon: React.ElementType;
+  isVisible: boolean;
+  index: number;
+}
+
 const TimelineItem = ({
   month,
   title,
@@ -17,7 +26,7 @@ const TimelineItem = ({
   icon: Icon,
   isVisible,
   index,
-}) => {
+}: TimelineItemProps) => {
   return (
     <div
       className={`relative backdrop-blur-lg bg-white/60 rounded-xl shadow-[0_15px_35px_rgba(124,58,237,0.1)] border border-white/40 transition-all duration-1000 hover:shadow-[0_20px_50px_rgba(124,58,237,0.15)] hover:translate-y-[-5px] ${

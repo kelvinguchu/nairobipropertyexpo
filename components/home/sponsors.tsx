@@ -11,6 +11,17 @@ import {
   Users,
 } from "lucide-react";
 
+interface SponsorCardProps {
+  tier: string;
+  price: number;
+  color: string;
+  icon: React.ElementType;
+  benefits: string[];
+  booth: string;
+  isVisible: boolean;
+  index: number;
+}
+
 const SponsorCard = ({
   tier,
   price,
@@ -20,7 +31,7 @@ const SponsorCard = ({
   booth,
   isVisible,
   index,
-}) => {
+}: SponsorCardProps) => {
   return (
     <div
       className={`relative backdrop-blur-lg bg-white/60 rounded-xl shadow-[0_15px_35px_rgba(124,58,237,0.1)] border border-white/40 overflow-hidden transition-all duration-700 flex flex-col h-full group hover:shadow-[0_20px_50px_rgba(124,58,237,0.15)] hover:translate-y-[-5px] ${
@@ -73,7 +84,8 @@ const SponsorCard = ({
           <Users className='w-5 h-5 text-purple-600 mr-2 flex-shrink-0' />
           <p className='text-gray-700'>
             {benefits.find(
-              (b) => b.includes("VIP passes") || b.includes("general passes")
+              (b: string) =>
+                b.includes("VIP passes") || b.includes("general passes")
             )}
           </p>
         </div>
@@ -83,10 +95,10 @@ const SponsorCard = ({
           <ul className='space-y-2'>
             {benefits
               .filter(
-                (b) =>
+                (b: string) =>
                   !b.includes("VIP passes") && !b.includes("general passes")
               )
-              .map((benefit, index) => (
+              .map((benefit: string, index: number) => (
                 <li key={index} className='flex'>
                   <CheckCircle2 className='w-5 h-5 text-purple-500 flex-shrink-0 mr-2' />
                   <span className='text-gray-600 text-sm'>{benefit}</span>
