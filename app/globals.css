@@ -177,16 +177,36 @@
     animation: pulse-slow 4s ease-in-out infinite;
   }
   
+  .animate-float-slow {
+    animation: float-slow 6s ease-in-out infinite;
+  }
+  
+  .animation-delay-150 {
+    animation-delay: 0.15s;
+  }
+  
   .animation-delay-300 {
     animation-delay: 0.3s;
+  }
+  
+  .animation-delay-450 {
+    animation-delay: 0.45s;
   }
   
   .animation-delay-600 {
     animation-delay: 0.6s;
   }
   
+  .animation-delay-750 {
+    animation-delay: 0.75s;
+  }
+  
   .animation-delay-900 {
     animation-delay: 0.9s;
+  }
+  
+  .animation-delay-1050 {
+    animation-delay: 1.05s;
   }
   
   .animation-delay-1200 {
@@ -203,6 +223,26 @@
   
   .animation-delay-2000 {
     animation-delay: 2s;
+  }
+  
+  /* Fancy patterns */
+  .pattern-grid {
+    background-image: 
+      linear-gradient(to right, var(--gold-light) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--gold-light) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  
+  .pattern-diagonal {
+    background-image: 
+      repeating-linear-gradient(
+        45deg, 
+        var(--gold-light) 0, 
+        var(--gold-light) 1px, 
+        transparent 0, 
+        transparent 50%
+      );
+    background-size: 10px 10px;
   }
   
   /* Keyframes for animations */
@@ -225,6 +265,15 @@
     50% {
       opacity: 0.6;
       transform: scale(1.1);
+    }
+  }
+  
+  @keyframes float-slow {
+    0%, 100% {
+      transform: translateY(0) rotate(45deg);
+    }
+    50% {
+      transform: translateY(-15px) rotate(45deg);
     }
   }
   
@@ -262,4 +311,49 @@
       transform: translateY(-200px) rotate(20deg);
     }
   }
+}
+
+.perspective {
+  perspective: 1000px;
+}
+
+.transform-gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slow-zoom {
+  0% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+.animate-appear {
+  animation: appear 0.8s forwards;
+}
+
+.animate-slow-zoom {
+  animation: slow-zoom 15s infinite alternate ease-in-out;
+}
+
+.clip-path-diagonal {
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
 }

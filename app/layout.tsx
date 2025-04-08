@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, Montserrat } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/navbar";
+import Footer from "@/components/layout/footer";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -31,7 +32,8 @@ export default function RootLayout({
       <body
         className={`antialiased ${playfair.variable} ${montserrat.variable} font-sans`}>
         <Navbar />
-        <div className='pt-16'>{children}</div>
+        <div>{children}</div>
+        <Footer />
       </body>
     </html>
   );

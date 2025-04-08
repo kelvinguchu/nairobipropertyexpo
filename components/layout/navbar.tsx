@@ -1,23 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import {
-  Menu,
-  X,
-  Home,
-  Info,
-  Users,
-  Award,
-  Calendar,
-  Mail,
-  Building,
-} from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,54 +18,88 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: "Home", path: "/", icon: Home },
-    { name: "About", path: "/about", icon: Info },
-    { name: "Exhibitors", path: "/exhibitors", icon: Users },
-    { name: "Sponsors", path: "/sponsors", icon: Award },
-    { name: "Schedule", path: "/schedule", icon: Calendar },
-    { name: "Contact", path: "/contact", icon: Mail },
+    { name: "Home", path: "/" },
+    { name: "About", path: "/#objectives" },
+    { name: "Features", path: "/#key-features" },
+    { name: "Audience", path: "/#target-audience" },
+    { name: "Sponsors", path: "/#sponsors" },
+    { name: "Exhibitors", path: "/#exhibitor-packages" },
+    { name: "Timeline", path: "/#timeline" },
+    { name: "Contact", path: "/#contact" },
   ];
+
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    path: string
+  ) => {
+    e.preventDefault();
+    setIsMenuOpen(false);
+
+    // Handle regular page navigation
+    if (!path.includes("#")) {
+      router.push(path);
+      return;
+    }
+
+    // For same page section navigation
+    if (pathname === "/" && path.startsWith("/#")) {
+      const sectionId = path.split("#")[1];
+      const element = document.getElementById(sectionId);
+      if (element) {
+        window.scrollTo({
+          top: element.offsetTop - 80, // Offset for navbar height
+          behavior: "smooth",
+        });
+      }
+      return;
+    }
+
+    // For section navigation from other pages
+    router.push(path);
+  };
 
   return (
     <nav
-      className={`fixed w-full z-50 transition-all duration-300 ${
+      className={`fixed w-full z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-white/95 backdrop-blur-sm shadow-md py-2"
-          : "bg-white py-4"
+          ? "bg-white/80 backdrop-blur-md shadow-md py-3"
+          : "bg-transparent py-5"
       }`}>
-      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+      <div className='max-w-7xl mx-auto px-6 lg:px-8'>
         <div className='flex justify-between items-center'>
-          <div className='flex items-center'>
-            <Link href='/' className='flex-shrink-0 flex items-center'>
-              <Building className='h-8 w-8 text-yellow-500' />
-              <div className='ml-2'>
-                <span className='font-serif text-xl font-bold gold-gradient'>
-                  NPE
-                </span>
-                <span className='ml-1 font-sans text-sm font-medium tracking-wider'>
-                  2025
-                </span>
-              </div>
+          {/* Logo */}
+          <div className='flex-shrink-0'>
+            <Link
+              href='/'
+              className={`font-serif text-xl font-medium ${
+                scrolled ? "text-gray-800" : "text-white"
+              } hover:text-purple-500`}>
+              NPE 2025
             </Link>
           </div>
 
-          {/* Desktop menu */}
-          <div className='hidden md:flex items-center space-x-8'>
+          {/* Desktop menu and Register button together on right */}
+          <div className='hidden md:flex items-center space-x-6'>
             {navLinks.map((link) => (
-              <Link
+              <a
                 key={link.path}
                 href={link.path}
-                className={`inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors duration-300 ${
-                  pathname === link.path
-                    ? "gold-gradient font-medium"
-                    : "text-gray-700 hover:text-yellow-500"
-                }`}>
-                <link.icon className='w-4 h-4 mr-1' />
+                onClick={(e) => handleNavClick(e, link.path)}
+                className={`font-serif text-base transition-colors duration-300 ${
+                  pathname === link.path ||
+                  (pathname === "/" && link.path.includes("/#"))
+                    ? scrolled
+                      ? "text-black font-medium"
+                      : "text-white font-medium"
+                    : scrolled
+                    ? "text-gray-800"
+                    : "text-white"
+                } hover:text-purple-500`}>
                 {link.name}
-              </Link>
+              </a>
             ))}
-            <button className='ml-4 bg-yellow-500 hover:bg-yellow-600 text-black font-medium px-6 py-2 rounded-sm transition-all duration-300 transform hover:scale-105 uppercase tracking-wider text-sm'>
-              Register
+            <button className='bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-medium px-6 py-2 rounded-sm transition-all duration-300 uppercase tracking-wider text-sm shadow-md'>
+              REGISTER
             </button>
           </div>
 
@@ -83,42 +107,64 @@ const Navbar = () => {
           <div className='flex items-center md:hidden'>
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className='inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-yellow-500 focus:outline-none'
-              aria-expanded='false'>
+              className={`p-2 rounded-md focus:outline-none ${
+                scrolled ? "text-gray-800" : "text-white"
+              }`}>
               <span className='sr-only'>Open main menu</span>
-              {isMenuOpen ? (
-                <X className='h-6 w-6' />
-              ) : (
-                <Menu className='h-6 w-6' />
-              )}
+              <div className='w-6 flex items-center justify-center relative'>
+                <span
+                  className={`block absolute h-0.5 w-5 transform transition duration-300 ease-in-out ${
+                    isMenuOpen
+                      ? "rotate-45 bg-gray-800"
+                      : scrolled
+                      ? "bg-gray-800"
+                      : "bg-white"
+                  }`}></span>
+                <span
+                  className={`block absolute h-0.5 transform transition duration-300 ease-in-out ${
+                    isMenuOpen
+                      ? "w-0 bg-gray-800"
+                      : scrolled
+                      ? "w-5 bg-gray-800"
+                      : "w-5 bg-white"
+                  }`}></span>
+                <span
+                  className={`block absolute h-0.5 w-5 transform transition duration-300 ease-in-out ${
+                    isMenuOpen
+                      ? "-rotate-45 bg-gray-800"
+                      : scrolled
+                      ? "bg-gray-800"
+                      : "bg-white"
+                  }`}></span>
+              </div>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile menu, show/hide based on menu state */}
+      {/* Mobile menu */}
       <div
         className={`${
-          isMenuOpen ? "block" : "hidden"
-        } md:hidden bg-white/95 backdrop-blur-sm shadow-md elegant-shadow`}>
-        <div className='pt-2 pb-3 space-y-1'>
+          isMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+        } md:hidden overflow-hidden transition-all duration-300 bg-white/95 backdrop-blur-md`}>
+        <div className='px-6 pt-4 pb-6 space-y-1'>
           {navLinks.map((link) => (
-            <Link
+            <a
               key={link.path}
               href={link.path}
-              className={`flex items-center pl-3 pr-4 py-2 text-base font-medium ${
-                pathname === link.path
-                  ? "border-l-4 border-yellow-500 text-yellow-600 bg-yellow-50"
-                  : "border-l-4 border-transparent text-gray-600 hover:text-yellow-500 hover:border-yellow-300"
-              }`}
-              onClick={() => setIsMenuOpen(false)}>
-              <link.icon className='w-5 h-5 mr-2' />
+              onClick={(e) => handleNavClick(e, link.path)}
+              className={`block py-2 font-serif text-base ${
+                pathname === link.path ||
+                (pathname === "/" && link.path.includes("/#"))
+                  ? "text-black font-medium"
+                  : "text-gray-800"
+              } hover:text-purple-500`}>
               {link.name}
-            </Link>
+            </a>
           ))}
-          <div className='px-3 py-3'>
-            <button className='w-full bg-yellow-500 hover:bg-yellow-600 text-black font-medium px-4 py-2 rounded-sm transition-all duration-300 uppercase tracking-wider text-sm'>
-              Register
+          <div className='pt-4'>
+            <button className='w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-medium px-4 py-2 rounded-sm transition-all duration-300 uppercase tracking-wider text-sm shadow-md'>
+              REGISTER
             </button>
           </div>
         </div>
