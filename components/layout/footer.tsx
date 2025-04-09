@@ -181,9 +181,7 @@ const Footer = () => {
                 </li>
                 <li className='flex items-start'>
                   <Phone className='w-5 h-5 text-purple-400 mt-0.5 mr-3 flex-shrink-0' />
-                  <span className='text-gray-300 text-sm'>
-                    +254 XXX XXX XXX
-                  </span>
+                  <span className='text-gray-300 text-sm'>+254 735101001</span>
                 </li>
               </ul>
 
@@ -204,33 +202,11 @@ const Footer = () => {
       </div>
 
       {/* Bottom Section */}
-      <div className='relative backdrop-blur-md'>
-        <div className='max-w-7xl mx-auto px-6 lg:px-8 py-6'>
-          <div className='flex flex-col md:flex-row justify-between items-center'>
-            <div className='text-gray-400 text-sm'>
-              © {currentYear} Nairobi Property Expo. All rights reserved.
-            </div>
 
-            <div className='flex space-x-6 mt-4 md:mt-0'>
-              <a
-                href='/privacy-policy'
-                className='text-gray-400 hover:text-purple-400 text-sm transition-colors duration-300'>
-                Privacy Policy
-              </a>
-              <a
-                href='/terms'
-                className='text-gray-400 hover:text-purple-400 text-sm transition-colors duration-300'>
-                Terms & Conditions
-              </a>
-              <a
-                href='/#contact'
-                onClick={(e) => handleNavClick(e, "/#contact")}
-                className='text-gray-400 hover:text-purple-400 text-sm transition-colors duration-300'>
-                FAQ
-              </a>
-            </div>
+      <div className='max-w-7xl mx-auto px-6 lg:px-8 py-6 text-center'>
+          <div className='text-gray-400 text-sm'>
+            © {currentYear} Nairobi Property Expo. All rights reserved.
           </div>
-        </div>
       </div>
     </footer>
   );

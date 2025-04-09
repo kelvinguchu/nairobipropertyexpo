@@ -25,31 +25,26 @@ const KeyFeatures = () => {
     setIsClient(true);
   }, []);
 
+  // Single intersection observer for entire section
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            observer.unobserve(entry.target); // Optimize by unobserving after animation
-          }
-        });
+        if (entries[0].isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entries[0].target);
+        }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -100px 0px" }
+      { threshold: 0.15 }
     );
 
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
     }
 
-    const animatedElements = document.querySelectorAll(".animate-on-scroll");
-    animatedElements.forEach((el) => observer.observe(el));
-
     return () => {
       if (sectionRef.current) {
         observer.unobserve(sectionRef.current);
       }
-      animatedElements.forEach((el) => observer.unobserve(el));
     };
   }, []);
 
@@ -115,44 +110,44 @@ const KeyFeatures = () => {
       {/* Accent Lines */}
       <div className='absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent'></div>
 
-      {/* Glass Background Elements */}
-      <div className='absolute top-20 right-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl'></div>
-      <div className='absolute bottom-20 left-20 w-96 h-96 bg-indigo-400/10 rounded-full blur-3xl'></div>
-
-      {/* Large Gradient Orb for Background */}
+      {/* Simplified Background - Reduced number of elements */}
+      <div className='absolute inset-0 bg-gradient-to-br from-purple-600/5 to-indigo-500/10'></div>
       <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-purple-500/5 to-indigo-500/5 blur-3xl'></div>
 
-      {/* Animated particles */}
-      {isClient && (
+      {/* Reduced animated particles - only show few when visible and client-side */}
+      {isClient && isVisible && (
         <div className='absolute inset-0 opacity-[0.02]'>
-          {Array.from({ length: 8 }).map((_, i) => (
+          {Array.from({ length: 3 }).map((_, i) => (
             <div
               key={i}
               className='absolute w-3 h-3 border border-purple-500/30 rotate-45 animate-float-diagonal-slow'
               style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
+                top: `${25 + i * 25}%`,
+                left: `${20 + i * 30}%`,
+                animationDelay: `${i * 2}s`,
               }}></div>
           ))}
         </div>
       )}
 
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10'>
-        <div className='text-center mb-16'>
-          <div className='inline-block px-3 py-1 bg-purple-500/10 text-purple-700 rounded-sm text-sm font-medium tracking-wider uppercase animate-on-scroll opacity-0 transform translate-y-4 relative overflow-hidden group backdrop-blur-sm border border-purple-200/20 shadow-[0_4px_10px_rgba(139,92,246,0.1)]'>
+        <div
+          className={`text-center mb-16 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}>
+          <div className='inline-block px-3 py-1 bg-purple-500/10 text-purple-700 rounded-sm text-sm font-medium tracking-wider uppercase relative overflow-hidden group backdrop-blur-sm border border-purple-200/20 shadow-[0_4px_10px_rgba(139,92,246,0.1)]'>
             <span className='relative z-10'>What to Expect</span>
             <span className='absolute inset-0 w-full h-full bg-purple-400/20 -translate-x-full group-hover:translate-x-0 transition-transform duration-500'></span>
           </div>
 
-          <h2 className='mt-6 text-3xl md:text-4xl lg:text-5xl font-serif font-bold animate-on-scroll opacity-0 transform translate-y-4 animation-delay-200 text-purple-800'>
+          <h2 className='mt-6 text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-purple-800'>
             <span className='relative inline-block px-2'>
               Key Features
               <span className='absolute -bottom-2 left-0 w-full h-0.5 bg-gradient-to-r from-purple-400 to-indigo-600 transform scale-x-100'></span>
             </span>
           </h2>
 
-          <p className='mt-6 max-w-2xl mx-auto text-gray-600 text-lg animate-on-scroll opacity-0 transform translate-y-4 animation-delay-400'>
+          <p className='mt-6 max-w-2xl mx-auto text-gray-600 text-lg'>
             The Nairobi Property Expo 2025 offers a comprehensive experience
             with key attractions designed to connect, educate, and inspire all
             participants.
@@ -160,7 +155,11 @@ const KeyFeatures = () => {
         </div>
 
         {/* Tab Navigation */}
-        <div className='flex justify-center mb-12 animate-on-scroll opacity-0 transform translate-y-4 animation-delay-500'>
+        <div
+          className={`flex justify-center mb-12 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+          style={{ transitionDelay: "200ms" }}>
           <div className='inline-flex backdrop-blur-md bg-white/60 rounded-xl shadow-lg p-1.5 border border-white/40 max-w-[95%]'>
             <button
               className={`flex items-center justify-center px-2 xs:px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg transition-all duration-300 ${
@@ -194,7 +193,10 @@ const KeyFeatures = () => {
         <div
           className={`${
             activeTab === "exhibition" ? "block" : "hidden"
-          } animate-on-scroll opacity-0 transform translate-y-4 animation-delay-600`}>
+          } transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+          style={{ transitionDelay: "300ms" }}>
           <div className='grid grid-cols-1 lg:grid-cols-12 gap-8'>
             {/* Main Image - 7 cols */}
             <div className='lg:col-span-7'>
@@ -262,7 +264,10 @@ const KeyFeatures = () => {
         <div
           className={`${
             activeTab === "conference" ? "block" : "hidden"
-          } animate-on-scroll opacity-0 transform translate-y-4 animation-delay-600`}>
+          } transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+          style={{ transitionDelay: "300ms" }}>
           <div className='grid grid-cols-1 lg:grid-cols-12 gap-8'>
             {/* Main Image - 7 cols */}
             <div className='lg:col-span-7'>

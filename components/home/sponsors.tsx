@@ -134,17 +134,16 @@ const Sponsors = () => {
     setIsClient(true);
   }, []);
 
+  // Simplified intersection observer for entire section
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            observer.unobserve(entry.target); // Optimize by unobserving after animation
-          }
-        });
+        if (entries[0].isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entries[0].target);
+        }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -100px 0px" }
+      { threshold: 0.15 }
     );
 
     if (sectionRef.current) {
@@ -219,32 +218,29 @@ const Sponsors = () => {
       id='sponsors'
       ref={sectionRef}
       className='py-24 md:py-32 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden'>
-      {/* Background Elements */}
+      {/* Simplified Background Elements */}
       <div className='absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent'></div>
-      <div className='absolute inset-0 overflow-hidden'>
-        <div className='absolute top-40 left-40 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-3xl'></div>
-        <div className='absolute bottom-40 right-40 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-3xl'></div>
-        <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-purple-500/5 to-indigo-500/5 blur-3xl animate-pulse-slow'></div>
-      </div>
+      <div className='absolute inset-0 bg-gradient-to-br from-purple-600/5 to-indigo-500/10'></div>
+      <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-purple-500/5 to-indigo-500/5 blur-3xl animate-pulse-slow'></div>
 
-      {/* Animated particles for a subtle background effect */}
-      {isClient && (
+      {/* Reduced animated particles - only when visible */}
+      {isClient && isVisible && (
         <div className='absolute inset-0 opacity-[0.02]'>
-          {Array.from({ length: 6 }).map((_, i) => (
+          {Array.from({ length: 3 }).map((_, i) => (
             <div
               key={i}
               className='absolute w-3 h-3 border border-purple-500/30 rotate-45 animate-float-diagonal-slow'
               style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
+                top: `${25 + i * 25}%`,
+                left: `${20 + i * 30}%`,
+                animationDelay: `${i * 2}s`,
               }}></div>
           ))}
         </div>
       )}
 
       {/* Section Content */}
-      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10'>
+      <div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10'>
         {/* Section Header */}
         <div className='text-center mb-16'>
           <div
@@ -274,8 +270,8 @@ const Sponsors = () => {
           </p>
         </div>
 
-        {/* Sponsor Cards */}
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 max-w-7xl mx-auto'>
+        {/* Sponsor Cards - Updated to 2x2 Grid */}
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto'>
           {sponsorTiers.map((tier, index) => (
             <SponsorCard
               key={index}

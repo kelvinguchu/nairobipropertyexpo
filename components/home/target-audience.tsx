@@ -52,18 +52,16 @@ const TargetAudience = () => {
     };
   }, []);
 
-  // Intersection observer for animations
+  // Simplified intersection observer for animations
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            observer.unobserve(entry.target); // Optimize by unobserving after animation
-          }
-        });
+        if (entries[0].isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entries[0].target);
+        }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -100px 0px" }
+      { threshold: 0.15 }
     );
 
     if (sectionRef.current) {
@@ -167,24 +165,21 @@ const TargetAudience = () => {
       id='target-audience'
       ref={sectionRef}
       className='py-24 md:py-32 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden'>
-      {/* Background Elements */}
-      <div className='absolute inset-0 overflow-hidden'>
-        <div className='absolute -top-40 -right-40 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-3xl'></div>
-        <div className='absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-3xl'></div>
-        <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-purple-500/5 to-indigo-500/5 blur-3xl animate-pulse-slow'></div>
-      </div>
+      {/* Simplified Background Elements */}
+      <div className='absolute inset-0 bg-gradient-to-br from-purple-600/5 to-indigo-500/10'></div>
+      <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-purple-500/5 to-indigo-500/5 blur-3xl animate-pulse-slow'></div>
 
-      {/* Animated particles for a subtle background effect */}
-      {isClient && (
+      {/* Reduced animated particles - only when visible and client-side */}
+      {isClient && isVisible && (
         <div className='absolute inset-0 opacity-[0.02]'>
-          {Array.from({ length: 6 }).map((_, i) => (
+          {Array.from({ length: 3 }).map((_, i) => (
             <div
               key={i}
               className='absolute w-3 h-3 border border-purple-500/30 rotate-45 animate-float-diagonal-slow'
               style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
+                top: `${25 + i * 25}%`,
+                left: `${20 + i * 30}%`,
+                animationDelay: `${i * 2}s`,
               }}></div>
           ))}
         </div>
@@ -264,7 +259,7 @@ const TargetAudience = () => {
                         alt={audience.title}
                         fill
                         sizes='(max-width: 1024px) 100vw, 50vw'
-                        className='object-cover transition-transform duration-10000 scale-110 animate-slow-zoom'
+                        className='object-cover'
                         priority={idx === 0}
                       />
                     </div>
@@ -384,7 +379,7 @@ const TargetAudience = () => {
                   : "opacity-0 translate-y-8"
               }`}
               style={{
-                transitionDelay: `${Math.min(index * 100 + 400, 1200)}ms`,
+                transitionDelay: `${Math.min(index * 75 + 300, 900)}ms`,
               }}>
               {/* Card Image */}
               <div className='relative h-44 overflow-hidden'>
@@ -418,24 +413,7 @@ const TargetAudience = () => {
           ))}
         </div>
 
-        {/* CTA Banner with Glassmorphism */}
-        <div
-          className={`mt-16 p-1 rounded-xl bg-gradient-to-r from-purple-400/20 to-indigo-600/20 backdrop-blur-md shadow-[0_20px_50px_rgba(124,58,237,0.1)] transition-all duration-700 delay-[800ms] ${
-            isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
-          }`}>
-          <div className='bg-white/80 backdrop-blur-md rounded-lg p-8 text-center border border-white/50'>
-            <h4 className='text-2xl font-serif mb-4 text-purple-800'>
-              Are you in the real estate industry?
-            </h4>
-            <p className='text-gray-600 max-w-2xl mx-auto mb-6'>
-              Join hundreds of industry professionals and thousands of potential
-              buyers at East Africa's premier property exhibition.
-            </p>
-            <button className='px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-medium rounded-lg hover:shadow-[0_10px_20px_rgba(124,58,237,0.2)] transition-all duration-300 transform hover:-translate-y-0.5'>
-              Register Your Interest
-            </button>
-          </div>
-        </div>
+       
       </div>
 
       {/* Glassmorphism Bottom Element */}
