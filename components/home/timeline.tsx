@@ -29,12 +29,11 @@ const TimelineItem = ({
 }: TimelineItemProps) => {
   return (
     <div
-      className={`relative backdrop-blur-lg bg-white/60 rounded-xl shadow-[0_15px_35px_rgba(124,58,237,0.1)] border border-white/40 transition-all duration-1000 hover:shadow-[0_20px_50px_rgba(124,58,237,0.15)] hover:translate-y-[-5px] ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+      className={`relative backdrop-blur-lg bg-white/60 rounded-xl shadow-[0_15px_35px_rgba(124,58,237,0.1)] border border-white/40 transition-opacity duration-1000 ${
+        isVisible ? "opacity-100" : "opacity-0"
       }`}
       style={{ transitionDelay: `${index * 150 + 500}ms` }}>
       <div className='flex items-start p-5 relative overflow-hidden'>
-        <div className='absolute -bottom-6 -right-6 w-24 h-24 bg-gradient-to-br from-purple-200/20 to-indigo-100/10 rounded-full blur-xl'></div>
         <div className='w-14 h-14 rounded-full bg-gradient-to-br from-purple-100/90 to-indigo-100/80 backdrop-blur-sm flex items-center justify-center mr-4 shadow-inner border border-purple-200/80 flex-shrink-0'>
           <Icon className='w-6 h-6 text-purple-700' />
         </div>
@@ -61,17 +60,16 @@ const Timeline = () => {
     setIsClient(true);
   }, []);
 
+  // Simplified intersection observer for entire section
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            observer.unobserve(entry.target); // Optimize by unobserving after animation
-          }
-        });
+        if (entries[0].isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entries[0].target);
+        }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -100px 0px" }
+      { threshold: 0.15 }
     );
 
     if (sectionRef.current) {
@@ -163,61 +161,24 @@ END:VCALENDAR`;
       id='timeline'
       ref={sectionRef}
       className='py-24 md:py-32 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden'>
-      {/* Background Elements */}
+      {/* Simplified Background - Single gradient */}
       <div className='absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent'></div>
-      <div className='absolute inset-0 overflow-hidden'>
-        <div className='absolute top-40 left-40 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-3xl animate-pulse-slow'></div>
-        <div
-          className='absolute bottom-40 right-40 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-3xl animate-pulse-slow'
-          style={{ animationDelay: "2s" }}></div>
-        <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-purple-500/5 to-indigo-500/5 blur-3xl animate-pulse-slow'></div>
-      </div>
-
-      {/* Animated particles for a subtle background effect */}
-      {isClient && (
-        <>
-          <div className='absolute inset-0 opacity-[0.02]'>
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={i}
-                className='absolute w-3 h-3 border border-purple-500/30 rotate-45 animate-float-diagonal-slow'
-                style={{
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 5}s`,
-                }}></div>
-            ))}
-          </div>
-          <div className='absolute inset-0 opacity-[0.02]'>
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div
-                key={i}
-                className='absolute w-1 h-1 bg-indigo-600/50 rounded-full animate-pulse-slow'
-                style={{
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 8}s`,
-                  animationDuration: `${8 + Math.random() * 4}s`,
-                }}></div>
-            ))}
-          </div>
-        </>
-      )}
+      <div className='absolute inset-0 bg-gradient-to-br from-purple-600/5 to-indigo-500/10'></div>
 
       {/* Content */}
       <div className='max-w-7xl mx-auto px-6 lg:px-8 relative z-10'>
         {/* Header */}
         <div className='text-center mb-16'>
           <div
-            className={`inline-block px-3 py-1 bg-purple-500/10 text-purple-700 rounded-sm text-sm font-medium tracking-wider uppercase backdrop-blur-sm border border-purple-500/20 shadow-[0_4px_10px_rgba(139,92,246,0.1)] transition-all duration-700 ${
-              isVisible ? "opacity-100" : "opacity-0 translate-y-4"
+            className={`inline-block px-3 py-1 bg-purple-500/10 text-purple-700 rounded-sm text-sm font-medium tracking-wider uppercase backdrop-blur-sm border border-purple-500/20 shadow-[0_4px_10px_rgba(139,92,246,0.1)] transition-opacity duration-700 ${
+              isVisible ? "opacity-100" : "opacity-0"
             }`}>
             <span className='relative z-10'>Schedule</span>
           </div>
 
           <h2
-            className={`mt-6 text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-purple-800 transition-all duration-700 delay-150 ${
-              isVisible ? "opacity-100" : "opacity-0 translate-y-4"
+            className={`mt-6 text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-purple-800 transition-opacity duration-700 delay-150 ${
+              isVisible ? "opacity-100" : "opacity-0"
             }`}>
             <span className='relative inline-block px-2'>
               Event Timeline
@@ -226,8 +187,8 @@ END:VCALENDAR`;
           </h2>
 
           <p
-            className={`mt-6 max-w-2xl mx-auto text-gray-600 text-lg transition-all duration-700 delay-300 ${
-              isVisible ? "opacity-100" : "opacity-0 translate-y-4"
+            className={`mt-6 max-w-2xl mx-auto text-gray-600 text-lg transition-opacity duration-700 delay-300 ${
+              isVisible ? "opacity-100" : "opacity-0"
             }`}>
             Key dates and milestones for the Nairobi Property Expo 2025
           </p>
@@ -244,18 +205,15 @@ END:VCALENDAR`;
                 key={index}
                 className={`flex items-center ${
                   index % 2 === 0 ? "justify-start" : "justify-end"
-                } relative transition-all duration-1000 ${
-                  isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-12"
+                } relative transition-opacity duration-1000 ${
+                  isVisible ? "opacity-100" : "opacity-0"
                 }`}
                 style={{ transitionDelay: `${index * 150 + 500}ms` }}>
                 <div
                   className={`w-[45%] z-10 ${
                     index % 2 === 0 ? "pr-8 text-right" : "pl-8 text-left"
                   }`}>
-                  <div className='backdrop-blur-lg bg-white/60 rounded-xl shadow-[0_15px_35px_rgba(124,58,237,0.1)] border border-white/40 p-6 hover:shadow-[0_20px_50px_rgba(124,58,237,0.15)] hover:translate-y-[-5px] transition-all duration-300 relative overflow-hidden'>
-                    <div className='absolute -bottom-10 -right-10 w-32 h-32 bg-gradient-to-br from-purple-200/20 to-indigo-100/10 rounded-full blur-xl'></div>
+                  <div className='backdrop-blur-lg bg-white/60 rounded-xl shadow-[0_15px_35px_rgba(124,58,237,0.1)] border border-white/40 p-6 transition-shadow duration-300 relative overflow-hidden'>
                     <div className='relative z-10'>
                       <div className='font-bold bg-gradient-to-r from-purple-600 to-indigo-600 text-transparent bg-clip-text text-sm mb-1'>
                         {event.month}
@@ -295,12 +253,13 @@ END:VCALENDAR`;
 
         {/* Final CTA */}
         <div
-          className={`mt-16 text-center transition-all duration-700 delay-[900ms] ${
+          className={`mt-16 text-center transition-opacity duration-700 ${
             isVisible ? "opacity-100" : "opacity-0"
-          }`}>
+          }`}
+          style={{ transitionDelay: "900ms" }}>
           <button
             onClick={addToCalendar}
-            className='px-8 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-medium rounded-lg shadow-[0_10px_20px_rgba(124,58,237,0.2)] backdrop-blur-sm transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(124,58,237,0.3)] border border-white/20 hover:border-white/30 flex items-center justify-center mx-auto'>
+            className='px-8 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-medium rounded-lg shadow-lg backdrop-blur-sm transition-shadow duration-300 border border-white/20 flex items-center justify-center mx-auto'>
             <Calendar className='w-5 h-5 mr-2' />
             Save the Dates
           </button>

@@ -110,34 +110,16 @@ const KeyFeatures = () => {
       {/* Accent Lines */}
       <div className='absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent'></div>
 
-      {/* Simplified Background - Reduced number of elements */}
+      {/* Simplified Background - Single gradient */}
       <div className='absolute inset-0 bg-gradient-to-br from-purple-600/5 to-indigo-500/10'></div>
-      <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-purple-500/5 to-indigo-500/5 blur-3xl'></div>
-
-      {/* Reduced animated particles - only show few when visible and client-side */}
-      {isClient && isVisible && (
-        <div className='absolute inset-0 opacity-[0.02]'>
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div
-              key={i}
-              className='absolute w-3 h-3 border border-purple-500/30 rotate-45 animate-float-diagonal-slow'
-              style={{
-                top: `${25 + i * 25}%`,
-                left: `${20 + i * 30}%`,
-                animationDelay: `${i * 2}s`,
-              }}></div>
-          ))}
-        </div>
-      )}
 
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10'>
         <div
           className={`text-center mb-16 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}>
-          <div className='inline-block px-3 py-1 bg-purple-500/10 text-purple-700 rounded-sm text-sm font-medium tracking-wider uppercase relative overflow-hidden group backdrop-blur-sm border border-purple-200/20 shadow-[0_4px_10px_rgba(139,92,246,0.1)]'>
+          <div className='inline-block px-3 py-1 bg-purple-500/10 text-purple-700 rounded-sm text-sm font-medium tracking-wider uppercase relative overflow-hidden backdrop-blur-sm border border-purple-200/20 shadow-[0_4px_10px_rgba(139,92,246,0.1)]'>
             <span className='relative z-10'>What to Expect</span>
-            <span className='absolute inset-0 w-full h-full bg-purple-400/20 -translate-x-full group-hover:translate-x-0 transition-transform duration-500'></span>
           </div>
 
           <h2 className='mt-6 text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-purple-800'>
@@ -200,13 +182,13 @@ const KeyFeatures = () => {
           <div className='grid grid-cols-1 lg:grid-cols-12 gap-8'>
             {/* Main Image - 7 cols */}
             <div className='lg:col-span-7'>
-              <div className='relative rounded-xl shadow-[0_20px_50px_rgba(124,58,237,0.15)] overflow-hidden h-full min-h-[300px] border border-white/30 group'>
+              <div className='relative rounded-xl shadow-[0_20px_50px_rgba(124,58,237,0.15)] overflow-hidden h-full min-h-[300px] border border-white/30'>
                 <Image
                   src='/saritcentre.jpg'
                   alt='Exhibition Hall'
                   fill
                   sizes='(max-width: 1024px) 100vw, 58vw'
-                  className='object-cover transition-transform duration-700 group-hover:scale-105'
+                  className='object-cover'
                 />
                 <div className='absolute inset-0 bg-gradient-to-t from-purple-900/80 via-indigo-800/40 to-transparent'></div>
                 <div className='absolute bottom-0 left-0 right-0 p-4 sm:p-6 lg:p-8 text-white'>
@@ -242,7 +224,7 @@ const KeyFeatures = () => {
                   {exhibitionHighlights.map((highlight, index) => (
                     <div
                       key={index}
-                      className='p-4 hover:bg-white/80 transition-all duration-300 flex backdrop-blur-sm hover:shadow-inner'>
+                      className='p-4 hover:bg-white/80 transition-colors duration-300 flex backdrop-blur-sm'>
                       <div className='w-1 bg-gradient-to-b from-purple-400 to-indigo-600 rounded-full self-stretch mr-3 opacity-70'></div>
                       <div>
                         <h4 className='font-medium text-gray-900'>
@@ -271,13 +253,13 @@ const KeyFeatures = () => {
           <div className='grid grid-cols-1 lg:grid-cols-12 gap-8'>
             {/* Main Image - 7 cols */}
             <div className='lg:col-span-7'>
-              <div className='relative rounded-xl shadow-[0_20px_50px_rgba(124,58,237,0.15)] overflow-hidden h-full min-h-[300px] border border-white/30 group'>
+              <div className='relative rounded-xl shadow-[0_20px_50px_rgba(124,58,237,0.15)] overflow-hidden h-full min-h-[300px] border border-white/30'>
                 <Image
                   src='/saritcentre2.jpg'
                   alt='Conference Stage'
                   fill
                   sizes='(max-width: 1024px) 100vw, 58vw'
-                  className='object-cover transition-transform duration-700 group-hover:scale-105'
+                  className='object-cover'
                 />
                 <div className='absolute inset-0 bg-gradient-to-t from-purple-900/80 via-indigo-800/40 to-transparent'></div>
                 <div className='absolute bottom-0 left-0 right-0 p-4 sm:p-6 lg:p-8 text-white'>
@@ -313,7 +295,7 @@ const KeyFeatures = () => {
                   {conferenceTopics.map((topic, index) => (
                     <div
                       key={index}
-                      className='p-4 hover:bg-white/80 transition-all duration-300 backdrop-blur-sm hover:shadow-inner'>
+                      className='p-4 hover:bg-white/80 transition-colors duration-300 backdrop-blur-sm'>
                       <div className='flex items-center mb-3'>
                         <div className='w-9 h-9 rounded-full bg-purple-100/80 backdrop-blur-sm flex items-center justify-center mr-3 shadow-inner border border-purple-200/80'>
                           <topic.icon className='w-4 h-4 text-purple-700' />

@@ -165,40 +165,23 @@ const TargetAudience = () => {
       id='target-audience'
       ref={sectionRef}
       className='py-24 md:py-32 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden'>
-      {/* Simplified Background Elements */}
+      {/* Simplified Background - Single gradient */}
       <div className='absolute inset-0 bg-gradient-to-br from-purple-600/5 to-indigo-500/10'></div>
-      <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-purple-500/5 to-indigo-500/5 blur-3xl animate-pulse-slow'></div>
-
-      {/* Reduced animated particles - only when visible and client-side */}
-      {isClient && isVisible && (
-        <div className='absolute inset-0 opacity-[0.02]'>
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div
-              key={i}
-              className='absolute w-3 h-3 border border-purple-500/30 rotate-45 animate-float-diagonal-slow'
-              style={{
-                top: `${25 + i * 25}%`,
-                left: `${20 + i * 30}%`,
-                animationDelay: `${i * 2}s`,
-              }}></div>
-          ))}
-        </div>
-      )}
 
       {/* Content Container */}
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10'>
         {/* Section Header */}
         <div className='text-center mb-16'>
           <div
-            className={`inline-block px-3 py-1 bg-purple-500/10 text-purple-700 rounded-sm text-sm font-medium tracking-wider uppercase backdrop-blur-sm border border-purple-200/20 shadow-[0_4px_10px_rgba(139,92,246,0.1)] transition-all duration-500 ${
-              isVisible ? "opacity-100" : "opacity-0 translate-y-4"
+            className={`inline-block px-3 py-1 bg-purple-500/10 text-purple-700 rounded-sm text-sm font-medium tracking-wider uppercase backdrop-blur-sm border border-purple-200/20 shadow-[0_4px_10px_rgba(139,92,246,0.1)] transition-opacity duration-500 ${
+              isVisible ? "opacity-100" : "opacity-0"
             }`}>
             <span className='relative z-10'>Who Should Attend</span>
           </div>
 
           <h2
-            className={`mt-6 text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-purple-800 transition-all duration-500 delay-150 ${
-              isVisible ? "opacity-100" : "opacity-0 translate-y-4"
+            className={`mt-6 text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-purple-800 transition-opacity duration-500 delay-150 ${
+              isVisible ? "opacity-100" : "opacity-0"
             }`}>
             <span className='relative inline-block px-2'>
               Target Audience
@@ -207,8 +190,8 @@ const TargetAudience = () => {
           </h2>
 
           <p
-            className={`mt-6 max-w-2xl mx-auto text-gray-600 text-lg transition-all duration-500 delay-300 ${
-              isVisible ? "opacity-100" : "opacity-0 translate-y-4"
+            className={`mt-6 max-w-2xl mx-auto text-gray-600 text-lg transition-opacity duration-500 delay-300 ${
+              isVisible ? "opacity-100" : "opacity-0"
             }`}>
             The Nairobi Property Expo 2025 brings together key stakeholders in
             the real estate ecosystem for an unparalleled networking and
@@ -219,8 +202,8 @@ const TargetAudience = () => {
         {/* Featured Audience Display (visible on larger screens) */}
         <div
           ref={featuredRef}
-          className={`hidden lg:block mb-16 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          className={`hidden lg:block mb-16 transition-opacity duration-700 ${
+            isVisible ? "opacity-100" : "opacity-0"
           }`}>
           <div className='relative'>
             {/* Progress Indicator */}
@@ -228,7 +211,7 @@ const TargetAudience = () => {
               {audienceGroups.map((_, idx) => (
                 <button
                   key={`indicator-${idx}`}
-                  className={`w-12 h-1 rounded-full transition-all duration-300 ${
+                  className={`w-12 h-1 rounded-full transition-colors duration-300 ${
                     activeIndex === idx ? "bg-purple-500" : "bg-gray-200"
                   }`}
                   onClick={() => setActiveIndex(idx)}></button>
@@ -319,7 +302,7 @@ const TargetAudience = () => {
                   {audienceGroups.map((audience, idx) => (
                     <div
                       key={`selector-${idx}`}
-                      className={`flex items-center p-4 cursor-pointer transition-all duration-300 hover:bg-purple-50/50 border-b border-r border-gray-100/50 relative overflow-hidden group ${
+                      className={`flex items-center p-4 cursor-pointer transition-colors duration-300 hover:bg-purple-50/50 border-b border-r border-gray-100/50 relative overflow-hidden ${
                         activeIndex === idx
                           ? "bg-purple-50/80 border-l-2 border-l-purple-500"
                           : ""
@@ -330,33 +313,30 @@ const TargetAudience = () => {
                         <div className='absolute inset-0 bg-gradient-to-r from-purple-100/50 to-transparent'></div>
                       )}
 
-                      {/* Overlay on hover */}
-                      <div className='absolute inset-0 bg-gradient-to-r from-purple-200/0 to-purple-200/0 group-hover:from-purple-200/30 group-hover:to-purple-200/0 transition-all duration-500'></div>
-
                       <div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center mr-3 backdrop-blur-sm shadow-inner border border-purple-200/50 transition-all duration-300 ${
+                        className={`w-10 h-10 rounded-full flex items-center justify-center mr-3 backdrop-blur-sm shadow-inner border border-purple-200/50 transition-colors duration-300 ${
                           activeIndex === idx
                             ? "bg-purple-100/80"
                             : "bg-gray-100/80"
                         }`}>
                         <audience.icon
-                          className={`w-5 h-5 transition-all duration-300 ${
+                          className={`w-5 h-5 transition-colors duration-300 ${
                             activeIndex === idx
                               ? "text-purple-600"
-                              : "text-gray-500 group-hover:text-purple-600"
+                              : "text-gray-500 hover:text-purple-600"
                           }`}
                         />
                       </div>
                       <div className='flex flex-col'>
                         <span
-                          className={`transition-all duration-300 ${
+                          className={`transition-colors duration-300 ${
                             activeIndex === idx
                               ? "text-purple-700 font-medium"
                               : "text-gray-700"
                           }`}>
                           {audience.title}
                         </span>
-                        <span className='text-xs text-gray-400 hidden group-hover:block transition-all duration-300 max-w-[180px] truncate'>
+                        <span className='text-xs text-gray-400 max-w-[180px] truncate'>
                           {audience.description}
                         </span>
                       </div>
@@ -373,7 +353,7 @@ const TargetAudience = () => {
           {audienceGroups.map((group, index) => (
             <div
               key={index}
-              className={`backdrop-blur-lg bg-white/60 rounded-xl shadow-[0_15px_35px_rgba(124,58,237,0.1)] border border-white/40 overflow-hidden transition-all duration-500 group hover:shadow-[0_20px_50px_rgba(124,58,237,0.15)] hover:translate-y-[-5px] ${
+              className={`backdrop-blur-lg bg-white/60 rounded-xl shadow-[0_15px_35px_rgba(124,58,237,0.1)] border border-white/40 overflow-hidden transition-all duration-500 ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"
@@ -388,7 +368,7 @@ const TargetAudience = () => {
                   alt={group.title}
                   fill
                   sizes='(max-width: 768px) 100vw, 50vw'
-                  className='object-cover group-hover:scale-105 transition-transform duration-700'
+                  className='object-cover'
                 />
                 <div className='absolute inset-0 bg-gradient-to-t from-purple-900/70 to-indigo-800/20'></div>
                 <div className='absolute bottom-0 left-0 p-4'>
@@ -412,8 +392,6 @@ const TargetAudience = () => {
             </div>
           ))}
         </div>
-
-       
       </div>
 
       {/* Glassmorphism Bottom Element */}

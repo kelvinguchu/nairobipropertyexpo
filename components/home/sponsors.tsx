@@ -34,8 +34,8 @@ const SponsorCard = ({
 }: SponsorCardProps) => {
   return (
     <div
-      className={`relative backdrop-blur-lg bg-white/60 rounded-xl shadow-[0_15px_35px_rgba(124,58,237,0.1)] border border-white/40 overflow-hidden transition-all duration-700 flex flex-col h-full group hover:shadow-[0_20px_50px_rgba(124,58,237,0.15)] hover:translate-y-[-5px] ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+      className={`relative backdrop-blur-lg bg-white/60 rounded-xl shadow-[0_15px_35px_rgba(124,58,237,0.1)] border border-white/40 overflow-hidden transition-opacity duration-700 flex flex-col h-full ${
+        isVisible ? "opacity-100" : "opacity-0"
       }`}
       style={{
         transitionDelay: `${Math.min(index * 150 + 400, 1000)}ms`,
@@ -43,13 +43,8 @@ const SponsorCard = ({
       {/* Header */}
       <div
         className={`p-6 text-center border-b border-gray-100/50 relative overflow-hidden bg-gradient-to-br ${color}`}>
-        <div className='absolute inset-0 opacity-20'>
-          <div className='absolute -top-32 -right-32 w-64 h-64 bg-white/20 rounded-full blur-3xl'></div>
-          <div className='absolute -bottom-32 -left-32 w-64 h-64 bg-white/20 rounded-full blur-3xl'></div>
-        </div>
-
         <div className='relative z-10'>
-          <div className='mx-auto w-16 h-16 rounded-full bg-white/30 backdrop-blur-lg flex items-center justify-center mb-4 border border-white/40 shadow-inner group-hover:scale-110 transition-transform duration-500'>
+          <div className='mx-auto w-16 h-16 rounded-full bg-white/30 backdrop-blur-lg flex items-center justify-center mb-4 border border-white/40 shadow-inner'>
             <Icon
               className={`w-8 h-8 ${
                 tier === "Diamond"
@@ -108,7 +103,7 @@ const SponsorCard = ({
         </div>
 
         <button
-          className={`w-full py-3 mt-6 rounded-lg backdrop-blur-sm text-white font-medium transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-[0_10px_20px_rgba(124,58,237,0.2)] border border-white/20 ${
+          className={`w-full py-3 mt-6 rounded-lg backdrop-blur-sm text-white font-medium transition-shadow duration-300 hover:shadow-lg border border-white/20 ${
             tier === "Diamond"
               ? "bg-gradient-to-r from-blue-500 to-indigo-600"
               : tier === "Platinum"
@@ -218,41 +213,24 @@ const Sponsors = () => {
       id='sponsors'
       ref={sectionRef}
       className='py-24 md:py-32 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden'>
-      {/* Simplified Background Elements */}
+      {/* Simplified Background - Single gradient */}
       <div className='absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent'></div>
       <div className='absolute inset-0 bg-gradient-to-br from-purple-600/5 to-indigo-500/10'></div>
-      <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-purple-500/5 to-indigo-500/5 blur-3xl animate-pulse-slow'></div>
-
-      {/* Reduced animated particles - only when visible */}
-      {isClient && isVisible && (
-        <div className='absolute inset-0 opacity-[0.02]'>
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div
-              key={i}
-              className='absolute w-3 h-3 border border-purple-500/30 rotate-45 animate-float-diagonal-slow'
-              style={{
-                top: `${25 + i * 25}%`,
-                left: `${20 + i * 30}%`,
-                animationDelay: `${i * 2}s`,
-              }}></div>
-          ))}
-        </div>
-      )}
 
       {/* Section Content */}
       <div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10'>
         {/* Section Header */}
         <div className='text-center mb-16'>
           <div
-            className={`inline-block px-3 py-1 bg-purple-500/10 text-purple-700 rounded-sm text-sm font-medium tracking-wider uppercase backdrop-blur-sm border border-purple-200/20 shadow-[0_4px_10px_rgba(139,92,246,0.1)] transition-all duration-500 ${
-              isVisible ? "opacity-100" : "opacity-0 translate-y-4"
+            className={`inline-block px-3 py-1 bg-purple-500/10 text-purple-700 rounded-sm text-sm font-medium tracking-wider uppercase backdrop-blur-sm border border-purple-200/20 shadow-[0_4px_10px_rgba(139,92,246,0.1)] transition-opacity duration-500 ${
+              isVisible ? "opacity-100" : "opacity-0"
             }`}>
             <span className='relative z-10'>Opportunities</span>
           </div>
 
           <h2
-            className={`mt-6 text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-purple-800 transition-all duration-500 delay-150 ${
-              isVisible ? "opacity-100" : "opacity-0 translate-y-4"
+            className={`mt-6 text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-purple-800 transition-opacity duration-500 delay-150 ${
+              isVisible ? "opacity-100" : "opacity-0"
             }`}>
             <span className='relative inline-block px-2'>
               Sponsorship Packages
@@ -261,8 +239,8 @@ const Sponsors = () => {
           </h2>
 
           <p
-            className={`mt-6 max-w-2xl mx-auto text-gray-600 text-lg transition-all duration-500 delay-300 ${
-              isVisible ? "opacity-100" : "opacity-0 translate-y-4"
+            className={`mt-6 max-w-2xl mx-auto text-gray-600 text-lg transition-opacity duration-500 delay-300 ${
+              isVisible ? "opacity-100" : "opacity-0"
             }`}>
             Showcase your brand to Kenya's most influential real estate
             professionals and potential buyers with our premium sponsorship
