@@ -10,6 +10,7 @@ import {
   Building,
   Users,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface SponsorCardProps {
   tier: string;
@@ -32,6 +33,26 @@ const SponsorCard = ({
   isVisible,
   index,
 }: SponsorCardProps) => {
+  const router = useRouter();
+  // Function to navigate to the contact section
+  const navigateToContact = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    // Check if on home page
+    if (window.location.pathname === "/") {
+      // Smooth scroll to contact section
+      const contactSection = document.getElementById("contact");
+      if (contactSection) {
+        window.scrollTo({
+          top: contactSection.offsetTop - 80, // Offset for navbar height
+          behavior: "smooth",
+        });
+      }
+    } else {
+      // Navigate to home page with contact section
+      router.push("/#contact");
+    }
+  };
+
   return (
     <div
       className={`relative backdrop-blur-lg bg-white/60 rounded-xl shadow-[0_15px_35px_rgba(124,58,237,0.1)] border border-white/40 overflow-hidden transition-opacity duration-700 flex flex-col h-full ${
@@ -103,6 +124,7 @@ const SponsorCard = ({
         </div>
 
         <button
+          onClick={navigateToContact}
           className={`w-full py-3 mt-6 rounded-lg backdrop-blur-sm text-white font-medium transition-shadow duration-300 hover:shadow-lg border border-white/20 ${
             tier === "Diamond"
               ? "bg-gradient-to-r from-blue-500 to-indigo-600"
