@@ -20,6 +20,9 @@ export const metadata: Metadata = {
   title: "Nairobi Property Expo 2025",
   description:
     "Join us for the Nairobi Property Expo, the leading event for the property industry in Kenya. Discover the latest trends, innovations, and opportunities in the real estate sector.",
+  icons: {
+    icon: "/logos/favicon.png",
+  },
 };
 
 export default function RootLayout({

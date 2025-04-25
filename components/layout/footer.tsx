@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Facebook,
@@ -63,9 +64,15 @@ const Footer = () => {
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
             {/* Column 1: About */}
             <div>
-              <h3 className='text-xl font-serif font-bold mb-4 text-purple-400'>
-                Nairobi Property Expo
-              </h3>
+              <div className='w-auto mb-6'>
+                <Image
+                  src='/logos/logo.png'
+                  alt='NPE 2025 Logo'
+                  width={100}
+                  height={100}
+                  className='h-auto'
+                />
+              </div>
               <p className='text-gray-300 text-sm mb-6'>
                 Kenya's premier real estate exhibition connecting developers,
                 buyers, and industry professionals.
@@ -204,9 +211,9 @@ const Footer = () => {
       {/* Bottom Section */}
 
       <div className='max-w-7xl mx-auto px-6 lg:px-8 py-6 text-center'>
-          <div className='text-gray-400 text-sm'>
-            © {currentYear} Nairobi Property Expo. All rights reserved.
-          </div>
+        <div className='text-gray-400 text-sm'>
+          © {currentYear} Nairobi Property Expo. All rights reserved.
+        </div>
       </div>
     </footer>
   );

@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -81,13 +82,13 @@ const Navbar = () => {
         <div className='flex justify-between items-center'>
           {/* Logo */}
           <div className='flex-shrink-0'>
-            <Link
-              href='/'
-              className={`font-serif text-xl font-medium ${
-                scrolled ? "text-gray-800" : "text-white"
-              } hover:text-purple-500`}>
-              NPE 2025
-            </Link>
+            <Image
+              src={scrolled ? "/logos/logo-black.png" : "/logos/logo.png"}
+              alt='NPE 2025 Logo'
+              width={100}
+              height={100}
+              className='w-full h-auto'
+            />
           </div>
 
           {/* Desktop menu and Register button together on right */}
